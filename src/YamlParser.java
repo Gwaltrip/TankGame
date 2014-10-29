@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -8,73 +7,48 @@ import org.yaml.snakeyaml.Yaml;
 
 @SuppressWarnings("unchecked")
 public class YamlParser {
-	Yaml yaml;
 	String fileName = "Config.yml";
-	ArrayList<String> key;
-	ArrayList<String> value;
 	String list[];
 	Map<String, Object> map;
 	
-	public YamlParser() throws IOException{
-		yaml = new Yaml();
-		key = new ArrayList<String>();
-		value = new ArrayList<String>();
-		
+	public YamlParser() {		
 		try {
-			map = (Map<String, Object>) yaml.load(new FileInputStream(new File(fileName)));
-	        for (Object name : map.keySet()) {   
-	            key.add(name.toString());
-	            value.add(map.get(name).toString());    
-	        }
-
+			map = (Map<String, Object>) new Yaml().load(new FileInputStream(new File(fileName)));
+			list = ((ArrayList<String>)map.get("list")).toArray(new String[((ArrayList<String>)map.get("list")).size()]);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    } 
-		
-		
-		//TODO - Remove this as this is for testing
-		setShot(new Shot(), "basic");
-	}
+	} 
 	
 	public String[] getList(){
 		return list;
 	}
 	
-	public void setShot(Shot s){
+	public void getShot(Shot shot){
 		String DEFAULT = "basic";
 		Map<String, Object> detail = (Map<String, Object>) map.get("details");
+		Map<String, Object> vals = (Map<String, Object>) detail.get((Object)DEFAULT);
 		
-		String inner = detail.get((Object)DEFAULT).toString();
-		
-		inner = inner.substring(1, inner.length() - 1);
-		
-		Map<String, Object> t = (Map<String, Object>) detail.get((Object)DEFAULT);
-		
-		s.setVelocity((int)t.get((Object)"velocity"));
-		s.setDamage((int)t.get((Object)"damage"));
-		s.setAmmo((int)t.get((Object)"ammo"));
-		s.setName((String)t.get((Object)"name"));
+		shot.setVelocity((int)vals.get((Object)"velocity"));
+		shot.setDamage((int)vals.get((Object)"damage"));
+		shot.setAmmo((int)vals.get((Object)"ammo"));
+		shot.setName((String)vals.get((Object)"name"));
 	}
 	
-	public void setShot(Shot s, String listVar){
-		Map<String, Object> detail = (Map<String, Object>) map.get("details");
+	public void getShot(Shot shot, String listVar){
+		Map<String, Object> detail = (Map<String, Object>) map.get("details");		
+		Map<String, Object> vals = (Map<String, Object>) detail.get((Object)listVar);
 		
-		String inner = detail.get((Object)listVar).toString();
-		
-		inner = inner.substring(1, inner.length() - 1);
-		
-		Map<String, Object> t = (Map<String, Object>) detail.get((Object)listVar);
-		
-		s.setVelocity((int)t.get((Object)"velocity"));
-		s.setDamage((int)t.get((Object)"damage"));
-		s.setName((String)t.get((Object)"name"));
+		shot.setVelocity((int)vals.get((Object)"velocity"));
+		shot.setDamage((int)vals.get((Object)"damage"));
+		shot.setName((String)vals.get((Object)"name"));
 	}
 	
-	public void setTank(Tank tank){
+	public void getTank(Tank tank){
 		Map<String, Object> info = (Map<String, Object>) map.get("tank");
 		tank.setHealth((int)info.get((Object)"health"));
 		tank.setMaxDistance((int)info.get((Object)"maxDistance"));
 		
-		setShot(tank.getShot());
+		getShot(tank.getShot());
 	}
 }

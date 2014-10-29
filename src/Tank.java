@@ -4,10 +4,10 @@ public class Tank {
 	private int maxDistance;
 	private int health;
 	private int angle; // in Degrees
-	private Shot s;
+	private Shot shot;
 	
 	public Tank(){
-		s = new Shot();
+		shot = new Shot();
 		angle = 90;
 		distance = 0;
 	}
@@ -24,12 +24,12 @@ public class Tank {
 		return maxDistance;
 	}
 	
-	public void setShot(Shot s){
-		this.s = s;
+	public void setShot(Shot shot){
+		this.shot = shot;
 	}
 	
 	public Shot getShot(){
-		return s;
+		return shot;
 	}
 	
 	public void incAngle(){
