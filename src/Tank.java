@@ -18,13 +18,21 @@ public class Tank extends Shot{
 		Tank.maxPostion = maxPostion;
 	}
 
-
 	public static void setMaxPosition(int maxPosition) {
 		Tank.maxPostion = maxPosition;
 	}
 	
 	public static int getMaxPosition(){
 		return maxPostion;
+	}
+	
+	//TODO - create fire method
+	public boolean fire(){
+		if((int) ammo.get(type) > 0){			
+			ammo.put(type, ((int) ammo.get(type)) - 1);
+			return true;
+		}
+		return false;
 	}
 	
 	public void setHealth(int health) {
@@ -92,12 +100,14 @@ public class Tank extends Shot{
 	public void goRight() {
 		if (position < maxPostion) {
 			position++;
+			incDistance();
 		}
 	}
 
 	public void goLeft() {
 		if (position > 0) {
 			position--;
+			incDistance();
 		}
 	}
 

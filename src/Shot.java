@@ -1,12 +1,13 @@
+import java.util.HashMap;
 import java.util.Map;
 
-//TODO Save ammos of shots that were fired
 public class Shot {
 	private int damage;
 	private int velocty;
+	private int maxInitialVelocity;
 	private String shot;
-	private String shotType;
-	private Map<String, Object> ammo;
+	protected String type;
+	protected Map<String, Object> ammo;
 	
 	private static Map<String, Object> maxAmmo;
 	
@@ -34,7 +35,7 @@ public class Shot {
 	}
 	
 	public void setAmmo(){
-		this.ammo = Shot.maxAmmo;
+		this.ammo = new HashMap<String, Object> (Shot.maxAmmo);
 	}
 
 	public void setAmmo(int ammo) {
@@ -42,11 +43,12 @@ public class Shot {
 	}
 
 	public void setAmmo(Map<String, Object> ammo) {
-		this.ammo = ammo;
+		this.ammo = new HashMap<String, Object> (ammo);
 	}
 
 	public void decAmmo() {
-		ammo.put(shot, (int) ammo.get(shot) - 1);
+		if((int) ammo.get(type) > 0)
+			ammo.put(type, ((int) ammo.get(type)) - 1);
 	}
 
 	public int getDamage() {
@@ -64,21 +66,39 @@ public class Shot {
 	public void setVelocity(int velocty) {
 		this.velocty = velocty;
 	}
+	
+	public void incVelocity(){
+		if(velocty < maxInitialVelocity)
+			velocty++;
+	}
+	
+	public void decVelocity(){
+		if(velocty > 0)
+			velocty--;
+	}
+	//TODO - inagrate into yaml parser
+	public void setMaxVelocity(int max){
+		this.maxInitialVelocity = max;
+	}
+	
+	public int getMaxVelocity(){
+		return maxInitialVelocity;
+	}
 
 	public void setName(String shot) {
 		this.shot = shot;
 	}
 
-	public String toString() {
+	public String shotName() {
 		return shot;
 	}
 	
-	public void setShotType(String shotType){
-		this.shotType = shotType;
+	public void setType(String type){
+		this.type = type;
 	}
 	
-	public String getShotType(){
-		return shotType;
+	public String getType(){
+		return type;
 	}
 
 }
