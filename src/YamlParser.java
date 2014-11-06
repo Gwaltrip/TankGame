@@ -66,6 +66,7 @@ public class YamlParser {
 		tank.setMaxDistance((int) info.get((Object) "maxDistance"));
 		Tank.setMaxPosition((int) info.get((Object) "maxPostion"));
 
-		getShot(tank.getShot());
+		getShot(tank);
+		tank.setAmmo();
 	}
 }

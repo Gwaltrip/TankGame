@@ -1,21 +1,18 @@
-public class Tank {
+public class Tank extends Shot{
 	private int distance;
 	private int maxDistance;
 	private int health;
 	private int angle; // in Degrees
 	private int position;
-	private Shot shot;
 	
 	private static int maxPostion;
 
 	public Tank() {
-		shot = new Shot();
 		angle = 90;
 		distance = 0;
 	}
 
 	public Tank(int maxPostion) {
-		shot = new Shot();
 		angle = 90;
 		distance = 0;
 		Tank.maxPostion = maxPostion;
@@ -41,7 +38,7 @@ public class Tank {
 	public int getMaxDistance() {
 		return maxDistance;
 	}
-
+/*
 	public void setShot(Shot shot) {
 		this.shot = shot;
 	}
@@ -49,7 +46,7 @@ public class Tank {
 	public Shot getShot() {
 		return shot;
 	}
-
+*/
 	public void incAngle() {
 		if (angle < 180)
 			angle++;
